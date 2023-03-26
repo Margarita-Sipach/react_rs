@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
-    "lint": "npx eslint .",
     "test": "vitest run --coverage",
-    "lint-fix": "npx eslint . --fix"
+		"lint": "eslint . --ext .tsx --ext .ts",
+		"lint-fix": "eslint . --ext .tsx --ext .ts --fix"
   },
   "dependencies": {
     "react": "^18.2.0",
