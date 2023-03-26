@@ -22,11 +22,8 @@ export const CardsData: CardProps[] = [
     author: 'Hans Christian Andersen',
     genres: ['romance', 'history'],
   },
-  // {
-  // 	img: "",
-  // 	title: ""
-  // 	price: ,
-  // author: "",
-  // genres: [""],
-  // }
 ];
+
+export const addresses = ['Belarus', 'UK', 'USA'];
+
+export const genres = ['romance', 'history', 'fantasy'];
