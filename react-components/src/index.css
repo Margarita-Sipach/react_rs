@@ -32,6 +32,9 @@ a:hover {
 
 input, button{
 	border-radius: 5px;
+	display: flex;
+	align-items: center;
+	height: 35px;
 }
 
 button {
@@ -43,6 +46,8 @@ button {
 	background: #747bff;
 	color: white;
 	font-size: 16px;
+	display: flex;
+	justify-content: center;
 }
 
 input{
@@ -55,7 +60,24 @@ input:focus {
 	outline-color: #747bff;
 }
 
+form{
+	display: flex;
+	flex-direction: column;
+	max-width: 400px;
+}
 
+form > *{
+	margin-bottom: 20px;
+}
+
+label{
+	display: flex;
+	align-items: center;
+}
+
+.none{
+	display: none;
+}
 
 /*------------------------------------------------------------------*/
 
@@ -134,12 +156,7 @@ h1{
 	align-items: center;
 }
 
-.search > *{
-	display: flex;
-	align-items: center;
-	
-	height: 35px;
-}
+
 
 
 
@@ -208,4 +225,29 @@ h1{
 	background: #747bff;
 	color: white;
 	border-radius: 5px;
+}
+
+/*------------------------------------------------------------------------------*/
+
+.file{
+	width: 150px;
+	height: 200px;
+	position: relative;
+	
+}
+
+.file > *{
+	width: 150px;
+	height: 200px;
+	position: absolute;
+}
+
+.file__input{
+	cursor: pointer;
+	opacity: 0;
+}
+
+.file__img{
+	object-fit: cover;
+	border: #7d7c7c 2px solid
 }
