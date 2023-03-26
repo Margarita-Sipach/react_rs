@@ -1,3 +1,5 @@
+import { Input } from '../ui/Input';
+import { Button } from '../ui/Button';
 import React from 'react';
 
 export class Search extends React.Component<object, { searchValue: string }> {
@@ -6,7 +8,6 @@ export class Search extends React.Component<object, { searchValue: string }> {
     this.state = { searchValue: '' };
   }
   componentDidMount() {
-    console.log(localStorage.getItem('search'));
     this.setState({ searchValue: localStorage.getItem('search') || '' });
   }
   componentWillUnmount() {
@@ -18,13 +19,15 @@ export class Search extends React.Component<object, { searchValue: string }> {
   render() {
     return (
       <div className="search">
-        <input
-          type="text"
-          placeholder="I'm searching..."
-          value={this.state.searchValue}
+        <Input
+          attributes={{
+            type: 'text',
+            placeholder: "I'm searching...",
+            value: this.state.searchValue,
+          }}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChange(e)}
         />
-        <button>Search</button>
+        <Button>Search</Button>
       </div>
     );
   }
