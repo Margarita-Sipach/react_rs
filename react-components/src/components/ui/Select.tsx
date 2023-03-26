@@ -7,7 +7,7 @@ interface SelectProps {
 }
 
 export class Select extends React.Component<SelectProps, { val: string }> {
-  private innerRef: React.RefObject<HTMLInputElement>;
+  private innerRef: React.RefObject<HTMLSelectElement>;
 
   constructor(props: SelectProps) {
     super(props);
@@ -23,6 +23,7 @@ export class Select extends React.Component<SelectProps, { val: string }> {
     return (
       <select
         name={this.props.title}
+        ref={this.innerRef}
         id={this.props.title}
         onChange={() => {
           this.props.setInnerRef &&
@@ -31,7 +32,7 @@ export class Select extends React.Component<SelectProps, { val: string }> {
             });
         }}
       >
-        {this.props.values.map((item) => (
+        {this.props.values.map((item, index) => (
           <option key={item} value={item}>
             {item}
           </option>
