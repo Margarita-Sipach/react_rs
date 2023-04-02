@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 interface SelectProps {
   title: string;
@@ -6,38 +6,26 @@ interface SelectProps {
   setInnerRef?: (arg: object) => void;
 }
 
-export class Select extends React.Component<SelectProps, { val: string }> {
-  private innerRef: React.RefObject<HTMLSelectElement>;
+export const Select = ({ title, values, setInnerRef }: SelectProps) => {
+  const innerRef = useRef<HTMLSelectElement>(null);
 
-  constructor(props: SelectProps) {
-    super(props);
-    this.innerRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.props.setInnerRef &&
-      this.props.setInnerRef({ [this.props.title.toLowerCase()]: this.props.values[0] });
-  }
-
-  render() {
-    return (
-      <select
-        name={this.props.title}
-        ref={this.innerRef}
-        id={this.props.title}
-        onChange={() => {
-          this.props.setInnerRef &&
-            this.props.setInnerRef({
-              [this.props.title.toLowerCase()]: this.innerRef.current?.value,
-            });
-        }}
-      >
-        {this.props.values.map((item, index) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-    );
-  }
-}
+  return (
+    <select
+      name={title}
+      ref={innerRef}
+      id={title}
+      onChange={() => {
+        setInnerRef &&
+          setInnerRef({
+            [title.toLowerCase()]: innerRef.current?.value,
+          });
+      }}
+    >
+      {values.map((item) => (
+        <option key={item} value={item}>
+          {item}
+        </option>
+      ))}
+    </select>
+  );
+};

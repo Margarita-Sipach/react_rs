@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 interface BoxProps {
   title: string;
@@ -7,45 +7,37 @@ interface BoxProps {
   setInnerRef: (arg: object) => void;
 }
 
-export class Box extends React.Component<BoxProps, { val: object }> {
-  private innerRef: React.RefObject<HTMLInputElement>[];
+export const Box = ({ values, type, title, setInnerRef }: BoxProps) => {
+  const innerRef = useRef<Array<HTMLInputElement | null>>([]);
+  const [newVal, setNewVal] = useState({});
 
-  constructor(props: BoxProps) {
-    super(props);
-
-    this.state = { val: [] };
-    this.innerRef = this.props.values.map(() => React.createRef());
-  }
-
-  render() {
-    return (
-      <div className="checkbox">
-        {this.props.values.map((item, index) => (
-          <label key={item} htmlFor={item}>
-            <input
-              type={this.props.type}
-              name={this.props.title}
-              value={item}
-              id={item}
-              ref={this.innerRef[index]}
-              onClick={() => {
-                const val =
-                  this.props.type === 'radio'
-                    ? { [item]: this.innerRef[index].current?.checked }
-                    : { ...this.state.val, [item]: this.innerRef[index].current?.checked };
-                this.props.setInnerRef({
-                  [this.props.title.toLowerCase()]: Object.entries(val).reduce(
-                    (acc: string[], item) => (item[1] ? [...acc, item[0]] : acc),
-                    []
-                  ),
-                });
-                this.setState({ val: val });
-              }}
-            />
-            {item}
-          </label>
-        ))}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="checkbox">
+      {values.map((item, index) => (
+        <label key={item} htmlFor={item}>
+          <input
+            type={type}
+            name={title}
+            value={item}
+            id={item}
+            ref={(item) => innerRef.current.push(item)}
+            onClick={() => {
+              const val =
+                type === 'radio'
+                  ? { [item]: innerRef.current[index]?.checked }
+                  : { ...newVal, [item]: innerRef.current[index]?.checked };
+              setInnerRef({
+                [title.toLowerCase()]: Object.entries(val).reduce(
+                  (acc: string[], item) => (item[1] ? [...acc, item[0]] : acc),
+                  []
+                ),
+              });
+              setNewVal(val);
+            }}
+          />
+          {item}
+        </label>
+      ))}
+    </div>
+  );
+};

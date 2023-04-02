@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 interface InputProps {
   attributes: {
@@ -10,29 +10,20 @@ interface InputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export class Input extends React.Component<InputProps> {
-  private innerRef: React.RefObject<HTMLInputElement>;
-  private name: string;
+export const Input = ({ attributes, setInnerRef, onChange }: InputProps) => {
+  const innerRef = useRef<HTMLInputElement>(null);
 
-  constructor(props: InputProps) {
-    super(props);
-    this.name = this.props.attributes.placeholder;
-    this.innerRef = React.createRef();
-  }
-
-  render() {
-    return (
-      <input
-        {...this.props.attributes}
-        ref={this.innerRef}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          this.props.onChange && this.props.onChange(e);
-          this.props.setInnerRef &&
-            this.props.setInnerRef({
-              [this.name.toLowerCase().replace(' ', '')]: this.innerRef.current?.value,
-            });
-        }}
-      />
-    );
-  }
-}
+  return (
+    <input
+      {...attributes}
+      ref={innerRef}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange && onChange(e);
+        setInnerRef &&
+          setInnerRef({
+            [attributes.placeholder.toLowerCase().replace(' ', '')]: innerRef.current?.value,
+          });
+      }}
+    />
+  );
+};
