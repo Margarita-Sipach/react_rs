@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ChangeEvent, useRef } from 'react';
 
 interface InputProps {
   attributes: {
@@ -8,9 +8,10 @@ interface InputProps {
   };
   setInnerRef?: (arg: object) => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export const Input = ({ attributes, setInnerRef, onChange }: InputProps) => {
+export const Input = ({ attributes, setInnerRef, onChange, onKeyDown }: InputProps) => {
   const innerRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -24,6 +25,7 @@ export const Input = ({ attributes, setInnerRef, onChange }: InputProps) => {
             [attributes.placeholder.toLowerCase().replace(' ', '')]: innerRef.current?.value,
           });
       }}
+      onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => onKeyDown && onKeyDown(e)}
     />
   );
 };

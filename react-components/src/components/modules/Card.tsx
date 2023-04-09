@@ -1,22 +1,29 @@
-import React from 'react';
-import { CardProps } from 'type';
+import React, { useState } from 'react';
+import { CardType } from '../../type';
+import { Modal } from '../ui/Modal';
+import { ModalCharacter } from './ModalCharacter';
 
-export const Card = ({ card }: { card: CardProps }) => {
+interface CardProps {
+  card: CardType;
+}
+export const Card = ({ card }: CardProps) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   return (
-    <div className="card" data-testid="card-item">
-      <img className="card__image" src={card.img} alt="" />
-      <div className="card__content">
-        <span className="card__title">{card.title}</span>
-        <span className="card__price">${card.price}</span>
-        <span className="card__author">{card.author}</span>
-        <ul className="card__genres">
-          {card.genres.map((item) => (
-            <li key={item} className="card__genre">
-              {item}
-            </li>
-          ))}
-        </ul>
+    <>
+      <div className="card" data-testid="card-item" onClick={() => setIsModalVisible(true)}>
+        <img className="card__image" src={card.image} alt="" />
+        <div className="card__content">
+          <span className="card__title">{card.name}</span>
+          <span className="card__price">{card.gender}</span>
+          <span className="card__author">{card.location.name}</span>
+        </div>
       </div>
-    </div>
+      {isModalVisible && (
+        <Modal onClick={setIsModalVisible}>
+          <ModalCharacter id={card.id} />
+        </Modal>
+      )}
+    </>
   );
 };

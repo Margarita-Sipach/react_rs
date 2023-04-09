@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from '../modules/Header';
-import { CardsData } from '../../data';
 import { Search } from '../modules/Search';
-import { Cards } from '../../components/modules/Cards';
+import { Cards } from '../modules/Cards';
 
-export const Main = () => (
-  <div>
-    <Header title="Main" />
-    <Search />
-    <Cards cards={CardsData} />
-  </div>
-);
+import { CardType } from '../../type';
+import { Loader } from '../ui/Loader';
+
+export const Main = () => {
+  const [cards, setCards] = useState<CardType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  return (
+    <div>
+      <Header title="Main" />
+      <Search onGetCards={setCards} onIsLoading={setIsLoading} />
+      {cards && cards.length > 0 ? <Cards cards={cards} /> : <>No characters found</>}
+      {isLoading && <Loader />}
+    </div>
+  );
+};
