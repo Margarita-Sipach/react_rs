@@ -13,10 +13,8 @@ export const ModalCharacter = ({ id }: ModalCharacterProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(id);
     setIsLoading(true);
     getCharacterById(id).then((data) => {
-      console.log(data.episode);
       setCharacterData(data);
       setOtherData({ origin: data.origin.name, location: data.location.name });
       setEpisode(
