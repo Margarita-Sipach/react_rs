@@ -6,9 +6,14 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { toolkitSlice } from './slice';
 import { configureStore } from '@reduxjs/toolkit';
+import { characterApi } from './api';
 
-const store = configureStore({
-  reducer: toolkitSlice.reducer,
+export const store = configureStore({
+  reducer: {
+    [characterApi.reducerPath]: characterApi.reducer,
+    toolkit: toolkitSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(characterApi.middleware),
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

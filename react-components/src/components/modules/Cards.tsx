@@ -4,7 +4,7 @@ import { Card } from './Card';
 import { useSelector } from 'react-redux';
 
 export const Cards = () => {
-  const cards = useSelector((state: sliceInitType) => state.searchCards);
+  const cards = useSelector((state: sliceInitType) => state.toolkit.searchCards);
 
   return (
     <>

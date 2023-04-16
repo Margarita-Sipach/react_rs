@@ -1,7 +1,7 @@
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import React, { useEffect } from 'react';
-import { getAllCharacters } from '../../api';
+import React, { useEffect, useState } from 'react';
+import { useGetCharacterByNameQuery } from '../../api';
 import { sliceInitType } from '../../type';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchValue, newSearchCards } from '../../slice';
@@ -11,22 +11,27 @@ interface SearchProps {
 
 export const Search = ({ onIsLoading }: SearchProps) => {
   const dispatch = useDispatch();
-  const searchValue = useSelector((state: sliceInitType) => state.search);
+  const searchValue = useSelector((state: sliceInitType) => state.toolkit.search);
+  const { data } = useGetCharacterByNameQuery(searchValue);
+  const [mount, setMount] = useState(false);
 
   useEffect(() => {
-    handleSetCards();
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(getSearchValue(e.target.value));
-  };
+    if (!mount && data) {
+      setMount(true);
+      onIsLoading(true);
+      dispatch(newSearchCards(data));
+      onIsLoading(false);
+    }
+  }, [data, dispatch, mount, onIsLoading]);
 
   const handleSetCards = () => {
     onIsLoading(true);
-    getAllCharacters(searchValue).then((data) => {
-      dispatch(newSearchCards(data));
-      onIsLoading(false);
-    });
+    dispatch(newSearchCards(data));
+    onIsLoading(false);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(getSearchValue(e.target.value));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

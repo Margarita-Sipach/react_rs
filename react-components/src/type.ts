@@ -27,7 +27,9 @@ export interface UserCardProps {
 }
 
 export interface sliceInitType {
-  search: string;
-  searchCards: CardType[];
-  formCards: UserCardProps[];
+  toolkit: {
+    search: string;
+    searchCards: CardType[];
+    formCards: UserCardProps[];
+  };
 }
