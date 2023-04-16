@@ -7,10 +7,12 @@ import { Select } from '../ui/Select';
 import { UIWrapper } from '../ui/UIWrapper';
 import { Button } from '../ui/Button';
 import { UserCards } from '../modules/UserCards';
-import { UserCardProps } from 'type';
 import { addresses, genres } from '../../data';
+import { newFormCards } from '../../slice';
+import { useDispatch } from 'react-redux';
 
 export const Form = () => {
+  const dispatch = useDispatch();
   const [display, setDisplay] = useState(false);
   const [fullname, setFullname] = useState(false);
   const [fileds, setFileds] = useState(false);
@@ -22,7 +24,6 @@ export const Form = () => {
     address: addresses[0],
     genres: [],
   });
-  const [cards, setCards] = useState<UserCardProps[]>([]);
 
   const getValues = (arg: object) => {
     setDisplay(false);
@@ -42,7 +43,7 @@ export const Form = () => {
           address: addresses[0],
           genres: [],
         });
-        setCards([...cards, card]);
+        dispatch(newFormCards(card));
         setDisplay(true);
         const target = e.target as HTMLElement;
         (target.parentElement as HTMLFormElement).reset();
@@ -104,7 +105,7 @@ export const Form = () => {
           Submit
         </Button>
       </form>
-      <UserCards cards={cards} />
+      <UserCards />
     </div>
   );
 };

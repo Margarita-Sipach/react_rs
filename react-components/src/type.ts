@@ -25,3 +25,9 @@ export interface UserCardProps {
   address: string;
   genres: string[];
 }
+
+export interface sliceInitType {
+  search: string;
+  searchCards: CardType[];
+  formCards: UserCardProps[];
+}

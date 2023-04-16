@@ -1,42 +1,30 @@
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { getAllCharacters } from '../../api';
-import { CardType } from '../../type';
+import { sliceInitType } from '../../type';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSearchValue, newSearchCards } from '../../slice';
 interface SearchProps {
-  onGetCards: (arg: CardType[]) => void;
   onIsLoading: (arg: boolean) => void;
 }
 
-export const Search = ({ onGetCards, onIsLoading }: SearchProps) => {
-  const [searchValue, setSearchValue] = useState('');
+export const Search = ({ onIsLoading }: SearchProps) => {
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state: sliceInitType) => state.search);
 
   useEffect(() => {
-    setSearchValue(localStorage.getItem('search') || '');
+    handleSetCards();
   }, []);
 
-  useEffect(() => {
-    onIsLoading(true);
-    getAllCharacters(localStorage.getItem('search') || '').then((data) => {
-      onGetCards(data);
-      onIsLoading(false);
-    });
-  }, [onGetCards, onIsLoading]);
-
-  useEffect(() => {
-    return () => {
-      searchValue && localStorage.setItem('search', searchValue);
-    };
-  });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    dispatch(getSearchValue(e.target.value));
   };
 
   const handleSetCards = () => {
     onIsLoading(true);
     getAllCharacters(searchValue).then((data) => {
-      onGetCards(data);
+      dispatch(newSearchCards(data));
       onIsLoading(false);
     });
   };

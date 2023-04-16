@@ -1,15 +1,22 @@
 import React from 'react';
-import { CardType } from '../../type';
+import { CardType, sliceInitType } from '../../type';
 import { Card } from './Card';
+import { useSelector } from 'react-redux';
 
-interface CardsProps {
-  cards: CardType[];
-}
+export const Cards = () => {
+  const cards = useSelector((state: sliceInitType) => state.searchCards);
 
-export const Cards = ({ cards }: CardsProps) => (
-  <div className="cards">
-    {cards.map((item: CardType) => (
-      <Card key={item.id} card={item} />
-    ))}
-  </div>
-);
+  return (
+    <>
+      {cards && cards.length > 0 ? (
+        <div className="cards">
+          {cards.map((item: CardType) => (
+            <Card key={item.id} card={item} />
+          ))}
+        </div>
+      ) : (
+        <>No characters found</>
+      )}
+    </>
+  );
+};

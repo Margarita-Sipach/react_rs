@@ -1,11 +1,18 @@
 import React from 'react';
-import { UserCardProps } from '../../type';
+import { UserCardProps, sliceInitType } from '../../type';
 import { UserCard } from './UserCard';
+import { useSelector } from 'react-redux';
 
-export const UserCards = ({ cards }: { cards: UserCardProps[] }) => (
-  <div className="cards">
-    {cards.map((item: UserCardProps) => (
-      <UserCard key={item.fullname} card={item} />
-    ))}
-  </div>
-);
+export const UserCards = () => {
+  {
+    const cards = useSelector((state: sliceInitType) => state.formCards);
+
+    return (
+      <div className="cards">
+        {cards.map((item: UserCardProps) => (
+          <UserCard key={item.fullname} card={item} />
+        ))}
+      </div>
+    );
+  }
+};
