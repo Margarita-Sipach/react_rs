@@ -4,7 +4,6 @@
     "allowJs": false,
     "isolatedModules": true,
     "noEmit": true,
-		
     "target": "esnext",
     "lib": ["dom", "esnext", "dom.iterable"],
     "jsx": "react",
@@ -18,8 +17,8 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": "./src",
-    "resolveJsonModule": true,
-  },
+    "resolveJsonModule": true,	
+	},
   "include": ["./src/**/*", "styled.d.ts", "vite.config.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }
